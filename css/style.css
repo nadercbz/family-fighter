@@ -1,0 +1,74 @@
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  background: #05050a radial-gradient(ellipse at center, #141428 0%, #05050a 70%);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+body { display: flex; align-items: center; justify-content: center; }
+#stage { position: relative; }
+canvas {
+  display: block;
+  image-rendering: auto;
+  box-shadow: 0 0 80px rgba(0,0,0,0.8);
+}
+body.desktop canvas { cursor: none; }
+
+/* Touch-Overlay: logisches Raster 1280x720, per transform auf die Canvas-Groesse skaliert */
+.ff-touch {
+  position: absolute; left: 0; top: 0;
+  transform-origin: top left;
+  display: none;
+  font-family: Impact, "Arial Black", "Helvetica Neue", sans-serif;
+  color: #fff;
+}
+.ff-btn {
+  position: absolute;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(10, 12, 24, 0.42);
+  border: 3px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 18px rgba(0,0,0,0.5), inset 0 0 14px rgba(255,255,255,0.08);
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 4px #000;
+  transition: transform 0.05s, background 0.05s;
+  pointer-events: none;      /* Treffer werden im Overlay berechnet, nicht per DOM */
+}
+.ff-btn.on { transform: scale(0.92); background: rgba(255, 213, 0, 0.55); border-color: #ffd500; color: #111; text-shadow: none; }
+.ff-lp { border-color: rgba(120, 190, 255, 0.85); }
+.ff-hp { border-color: rgba(255, 120, 120, 0.85); }
+.ff-kick { border-color: rgba(140, 255, 160, 0.85); }
+.ff-sp { border-color: rgba(255, 213, 0, 0.95); background: rgba(90, 60, 0, 0.45); }
+.ff-top { border-radius: 14px; background: rgba(0,0,0,0.45); border-width: 2px; }
+.ff-stick {
+  position: absolute; border-radius: 50%;
+  background: rgba(10, 12, 24, 0.35);
+  border: 3px solid rgba(255,255,255,0.5);
+  pointer-events: none;
+}
+.ff-knob {
+  position: absolute; left: 50%; top: 50%; margin: -35px 0 0 -35px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.75);
+  box-shadow: 0 0 16px rgba(255,255,255,0.5);
+}
+.ff-stickhint {
+  position: absolute; width: 120px; text-align: center;
+  font-size: 16px; letter-spacing: 0.15em; color: rgba(255,255,255,0.45);
+  pointer-events: none; transition: opacity 0.3s;
+}
+.ff-label { position: absolute; font-size: 18px; color: rgba(255,255,255,0.6); pointer-events: none; }
+
+/* Hinweis im Hochformat (nur Touch-Geraete) */
+#rotate {
+  display: none; position: fixed; inset: 0; z-index: 10;
+  background: #05050a; color: #fff;
+  flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  font: 700 22px Impact, "Arial Black", sans-serif; letter-spacing: 0.05em; text-align: center;
+}
+#rotate .phone { font-size: 64px; animation: ff-rot 1.6s ease-in-out infinite; }
+@keyframes ff-rot { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(90deg); } }
+@media (orientation: portrait) and (pointer: coarse) { #rotate { display: flex; } }
